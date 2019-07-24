@@ -572,6 +572,35 @@ void show_image_cv(image p, const char *name, IplImage *disp)
 }
 #endif
 
+//#ifdef NUMPY
+image ndarray_to_image(unsigned char* src, long* shape, long* strides)
+{
+
+    int h = shape[0];
+    int w = shape[1];
+    int c = shape[2];
+    int step_h = strides[0];
+    int step_w = strides[1];
+    int step_c = strides[2];
+    image im = make_image(w, h, c);
+    int i, j, k;
+
+    for(k = 0; k < c; ++k){
+        for(j = 0; j < h; ++j){
+            for(i = 0; i < w; ++i){
+                int dst_index = i + w*j + w*h*k;
+                int src_index = k + c*i + c*w*j;
+                im.data[dst_index] = src[src_index];//  /255.;
+            }
+        }
+    }
+
+    rgbgr_image(im);
+    return im;
+}
+//#endif
+
+
 int show_image(image p, const char *name, int ms)
 {
 #ifdef OPENCV
@@ -1460,6 +1489,8 @@ image load_image_stb(char *filename, int channels)
                 int dst_index = i + w*j + w*h*k;
                 int src_index = k + c*i + c*w*j;
                 im.data[dst_index] = (float)data[src_index]/255.;
+
+
             }
         }
     }
