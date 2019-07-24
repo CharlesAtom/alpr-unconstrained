@@ -38,8 +38,8 @@ def adjust_pts(pts,lroi):
 if __name__ == '__main__':
 
 
-    input_device  = sys.argv[1]
-    output_dir = sys.argv[2]
+    input_device  = 0
+    output_dir = "output"
     OCR_SUCCEED = False
 
     count = 0
